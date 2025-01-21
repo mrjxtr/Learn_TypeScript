@@ -1,11 +1,49 @@
-let user: string = prompt("Enter a name: ") || "";
-let greeting: string = prompt("Enter a greeting: ") || "";
+import { TaskService } from "./services/taskService.ts";
+import { Category } from "./models/task.ts";
 
-function greetHello(greeting: string, user: string): string {
-    let greet = greeting + "" + user;
-    console.log(greet);
+// Create a task service instance
+const taskService = new TaskService();
 
-    return greet;
-}
+// Create some categories
+const workCategory: Category = {
+  id: "1",
+  name: "Work",
+  color: "blue",
+};
 
-greetHello(greeting, user);
+const personalCategory: Category = {
+  id: "2",
+  name: "Personal",
+  color: "green",
+};
+
+// Create some tasks
+console.log("Creating tasks...");
+const task1 = taskService.createTask(
+  "Complete TypeScript Project",
+  "Implement all required features",
+  workCategory,
+  new Date("2024-01-15"),
+);
+
+const task2 = taskService.createTask(
+  "Go to the gym",
+  "Cardio day",
+  personalCategory,
+  new Date("2024-01-01"),
+);
+
+// Display all tasks
+console.log("\nAll tasks:");
+console.log(taskService.getAllTasks());
+
+// Update task status
+console.log("\nUpdating task status...");
+taskService.updateTaskStatus(task1.id, "in_progress");
+
+// Display tasks by status
+console.log("\nPending tasks:");
+console.log(taskService.getTasksByStatus("pending"));
+
+console.log("\nIn progress tasks:");
+console.log(taskService.getTasksByStatus("in_progress"));
